@@ -15,3 +15,28 @@ export function jsonSerialize(
   }
   return searchParams.toString();
 }
+export function jsonSerialize_v2(json: Record<string, string | number | null>) {
+  if (jsonIsEmpty(json)) return "";
+
+  // const _concatTuple = (tuple: [string, string | number | null]) =>
+  //   `${tuple[0]}=${tuple[1] === null ? "" : tuple[1]};`;
+
+  // Object.entries(json).reduce((previous, current) => {
+  //   const suffix = _concatTuple(current);
+  //   if (typeof previous === "string") {
+  //     return previous + suffix;
+  //   }
+  //   return _concatTuple(previous) + suffix;
+  // });
+
+  const getJoinStr = (key: string) => {
+    return `${key}=${json[key] === null ? "" : json[key]}&`;
+  };
+
+  Object.keys(json).reduce((previous, current, index) => {
+    if (index === 1) {
+      return getJoinStr(previous) + getJoinStr(current);
+    }
+    return previous + getJoinStr(current);
+  });
+}
