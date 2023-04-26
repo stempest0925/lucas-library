@@ -5,6 +5,7 @@ type Type2DAxis = { x: number; y: number };
  * @param axis1 点1
  * @param axis2 点2
  * @returns
+ * @referFormula 勾股定理
  */
 function getDistance_2D(axis1: Type2DAxis, axis2: Type2DAxis) {
   return Math.sqrt(
@@ -18,7 +19,7 @@ function getDistance_2D(axis1: Type2DAxis, axis2: Type2DAxis) {
  * @param axis2 点2
  * @param t 0-1之间的实数
  * @returns
- * @remarks 线性插值公式
+ * @referFormula 线性插值公式
  */
 function getAnyPoint_2D(
   axis1: Type2DAxis,
@@ -67,4 +68,20 @@ function getManyAvgPoints_2D(
     points.push(getAnyPoint_2D(axis1, axis2, i / (num + 1)));
   }
   return points;
+}
+
+/**
+ * 检查坐标系当中一个点是否在另外一个点的圆形范围内
+ * @param checkAxis 检查点
+ * @param referAxis 参照点
+ * @param r 半径
+ * @referFormula 勾股定理
+ */
+function isInPointRange(
+  checkAxis: Type2DAxis,
+  referAxis: Type2DAxis,
+  r: number
+) {
+  const distance = getDistance_2D(referAxis, checkAxis);
+  return distance <= r ? true : false;
 }
